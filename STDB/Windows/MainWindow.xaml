@@ -1,0 +1,115 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+        xmlns:local="clr-namespace:STDB"
+        xmlns:EF_Model="clr-namespace:STDB.EF_Model" x:Class="STDB.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="392" Width="525" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="customerViewSource" d:DesignSource="{d:DesignInstance {x:Type EF_Model:Customer}, CreateList=True}"/>
+        <CollectionViewSource x:Key="toolsViewSource" d:DesignSource="{d:DesignInstance {x:Type EF_Model:Tools}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="438*"/>
+            <ColumnDefinition Width="79*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TabControl x:Name="tabControl" Margin="10" TabStripPlacement="Right" Grid.ColumnSpan="2">
+            <TabItem x:Name="Customer_Tab" Header="Customer">
+                <Grid x:Name="Customer_Leaf" Background="#FFE5E5E5"
+                      DataContext="{StaticResource customerViewSource}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Control-->
+                    <Grid x:Name="Control" Margin="0,0,0,1" Grid.Row="1">
+                        <Button x:Name="Search_Cust_Bt" Content="Search / ReLoad the table" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="267" Click="Search_Cust_Bt_Click"/>
+                        <Label x:Name="Name_Lb" Content="Name" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                        <Label x:Name="Address_Lb" Content="Address" HorizontalAlignment="Left" Margin="10,56,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                        <Button x:Name="Delete_Cust_Bt" Content="Delete Customer" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" Width="100" Click="Delete_Cust_Bt_Click"/>
+                        <Button x:Name="Edit_Cust_Bt" Content="Edit Customer" HorizontalAlignment="Left" Margin="115,136,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="1.245,0.743" Click="Edit_Cust_Bt_Click"/>
+                        <Button x:Name="Add_Cust_Bt" Content="Add Customer" HorizontalAlignment="Left" Margin="220,136,0,0" VerticalAlignment="Top" Width="100" Click="Add_Cust_Bt_Click"/>
+                        <TextBox x:Name="Name_Tb" HorizontalAlignment="Left" Height="23" Margin="68,34,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="146"/>
+                        <TextBox x:Name="Address_Tb" HorizontalAlignment="Left" Height="43" Margin="68,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="146"/>
+                        <Label x:Name="Date_Lb" Content="Date" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top"/>
+                        <DatePicker x:Name="Date_Dp" HorizontalAlignment="Left" Margin="68,107,0,0" VerticalAlignment="Top" Width="146"/>
+                        <Button x:Name="Print_Cust_Bt" Content="Print" HorizontalAlignment="Left" Margin="282,10,0,0" VerticalAlignment="Top" Width="38" Height="98" Click="Print_Cust_Bt_Click"/>
+                    </Grid>
+                    <!--End Control-->
+                    <!--DB Customer on datagrid-->
+                    <DataGrid x:Name="customerDataGrid"
+                              AutoGenerateColumns="False"
+                              EnableRowVirtualization="True"
+                              ItemsSource="{Binding}" 
+                              Margin="10,10,10,0" 
+                              RowDetailsVisibilityMode="VisibleWhenSelected" 
+                              IsReadOnly="True">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn x:Name="idColumn" Binding="{Binding Id}" Header="Id" Width="20"/>
+                            <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="100"/>
+                            <DataGridTextColumn x:Name="address_customerColumn" Binding="{Binding Address_customer}" Header="Address customer" Width="170"/>
+                            <DataGridTemplateColumn x:Name="date_inColumn" Header="Date in" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker
+                                            SelectedDate="{Binding Date_in, Mode=TwoWay, 
+                                                                   NotifyOnValidationError=true,
+                                                                   ValidatesOnExceptions=true, 
+                                                                   StringFormat = {}{0:dd-MM-yyyy}}"
+                                            IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <CheckBox x:Name="Name_ChBox" Content="Only" HorizontalAlignment="Left" Margin="218,36,0,0" Grid.Row="1" VerticalAlignment="Top" Height="16" Width="54"/>
+                    <CheckBox x:Name="Address_ChBox" Content="Only" HorizontalAlignment="Left" Margin="218,61,0,0" Grid.Row="1" VerticalAlignment="Top" Height="16" Width="54"/>
+                    <CheckBox x:Name="Date_ChBox" Content="Only" HorizontalAlignment="Left" Margin="218,108,0,0" Grid.Row="1" VerticalAlignment="Top" Height="16" Width="54"/>
+                    <!--DB Customer on datagrid-->
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="Tool_Tab" Header="Tool">
+                <Grid x:Name="Tool_Leaf" Background="#FFE5E5E5" DataContext="{StaticResource toolsViewSource}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="Search_Tool_Bt" Content="Search / ReLoad the table" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="312" Grid.Row="1" Height="20"/>
+                    <Button x:Name="Delete_Tool_Bt" Content="Delete Tool" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Delete_Tool_Bt_Click"/>
+                    <Button x:Name="Edit_Tool_Bt" Content="Edit_Tool" HorizontalAlignment="Left" Margin="115,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1"/>
+                    <Button x:Name="Add_Tool_Bt" Content="Add_Tool" HorizontalAlignment="Left" Margin="220,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Add_Tool_Bt_Click"/>
+                    <Button x:Name="Print_Tool_Bt" Content="Print_Tool" HorizontalAlignment="Left" Margin="327,10,0,0" VerticalAlignment="Top" Width="89" Grid.Row="1" Height="127"/>
+                    <Label x:Name="Name_Tool_Lb" Content="Name Tool" HorizontalAlignment="Left" Margin="10,35,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <Label x:Name="Amount_Tool_Lb" Content="Amount" HorizontalAlignment="Left" Margin="10,61,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <TextBox x:Name="Amount_Tool_Tb" HorizontalAlignment="Left" Height="23" Margin="77,63,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="55"/>
+                    <TextBox x:Name="Name_Tool_Tb" HorizontalAlignment="Left" Height="23" Margin="77,35,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="243"/>
+                    <!--DB Tools on datagrid-->
+                    <DataGrid x:Name="toolsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="idColumn1" Binding="{Binding Id}" Header="Id" Width="30"/>
+                            <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding Name}" Header="Name" Width="310"/>
+                            <DataGridTextColumn x:Name="amountColumn" Binding="{Binding Amount}" Header="Amount" Width="55"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--DB Tools on datagrid-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5">
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <Button x:Name="Test_Conn_Bt" Content="Test Conn" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,9,10" VerticalAlignment="Bottom" Width="60" RenderTransformOrigin="0.484,1.3" Click="Test_Conn_Bt_Click"/>
+
+    </Grid>
+</Window>

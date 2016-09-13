@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SilgosptechnikaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address_customer" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Date_in" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="O_rder">
+          <Key>
+            <PropertyRef Name="Num_Order" />
+          </Key>
+          <Property Name="Num_Order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Customer" Type="int" Nullable="false" />
+          <Property Name="Id_Tool" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="Date_in" Type="date" Nullable="false" />
+          <Property Name="Done" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tools">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+        </EntityType>
+        <Association Name="FK_IdCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="O_rder" Type="Self.O_rder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="O_rder">
+              <PropertyRef Name="Id_Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdTools">
+          <End Role="Tools" Type="Self.Tools" Multiplicity="1" />
+          <End Role="O_rder" Type="Self.O_rder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tools">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="O_rder">
+              <PropertyRef Name="Id_Tool" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SilgosptechnikaDBModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="O_rder" EntityType="Self.O_rder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tools" EntityType="Self.Tools" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_IdCustomer" Association="Self.FK_IdCustomer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="O_rder" EntitySet="O_rder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdTools" Association="Self.FK_IdTools">
+            <End Role="Tools" EntitySet="Tools" />
+            <End Role="O_rder" EntitySet="O_rder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SilgosptechnikaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address_customer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date_in" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="O_rder" Relationship="Self.FK_IdCustomer" FromRole="Customer" ToRole="O_rder" />
+        </EntityType>
+        <EntityType Name="O_rder">
+          <Key>
+            <PropertyRef Name="Num_Order" />
+          </Key>
+          <Property Name="Num_Order" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Customer" Type="Int32" Nullable="false" />
+          <Property Name="Id_Tool" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
+          <Property Name="Date_in" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Done" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_IdCustomer" FromRole="O_rder" ToRole="Customer" />
+          <NavigationProperty Name="Tools" Relationship="Self.FK_IdTools" FromRole="O_rder" ToRole="Tools" />
+        </EntityType>
+        <EntityType Name="Tools">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Amount" Type="Int32" />
+          <NavigationProperty Name="O_rder" Relationship="Self.FK_IdTools" FromRole="Tools" ToRole="O_rder" />
+        </EntityType>
+        <Association Name="FK_IdCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="O_rder" Type="Self.O_rder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="O_rder">
+              <PropertyRef Name="Id_Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdTools">
+          <End Role="Tools" Type="Self.Tools" Multiplicity="1" />
+          <End Role="O_rder" Type="Self.O_rder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tools">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="O_rder">
+              <PropertyRef Name="Id_Tool" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="STDB_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="O_rder" EntityType="Self.O_rder" />
+          <EntitySet Name="Tools" EntityType="Self.Tools" />
+          <AssociationSet Name="FK_IdCustomer" Association="Self.FK_IdCustomer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="O_rder" EntitySet="O_rder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdTools" Association="Self.FK_IdTools">
+            <End Role="Tools" EntitySet="Tools" />
+            <End Role="O_rder" EntitySet="O_rder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SilgosptechnikaDBModelStoreContainer" CdmEntityContainer="STDB_Entities">
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="SilgosptechnikaDBModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address_customer" ColumnName="Address_customer" />
+                <ScalarProperty Name="Date_in" ColumnName="Date_in" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="O_rder">
+            <EntityTypeMapping TypeName="SilgosptechnikaDBModel.O_rder">
+              <MappingFragment StoreEntitySet="O_rder">
+                <ScalarProperty Name="Num_Order" ColumnName="Num_Order" />
+                <ScalarProperty Name="Id_Customer" ColumnName="Id_Customer" />
+                <ScalarProperty Name="Id_Tool" ColumnName="Id_Tool" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Date_in" ColumnName="Date_in" />
+                <ScalarProperty Name="Done" ColumnName="Done" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tools">
+            <EntityTypeMapping TypeName="SilgosptechnikaDBModel.Tools">
+              <MappingFragment StoreEntitySet="Tools">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
