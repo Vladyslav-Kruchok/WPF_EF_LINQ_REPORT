@@ -73,6 +73,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Windows\Tool_Tab\ToolEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Tool_Tab\ToolReportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Customer_Tab\CustomerEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -90,6 +98,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderMainWND.cs" />
+    <Compile Include="Windows\Tool_Tab\ToolEditWindow.xaml.cs">
+      <DependentUpon>ToolEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Tool_Tab\ToolReportWindow.xaml.cs">
+      <DependentUpon>ToolReportWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Customer_Tab\CustomerMainWND.cs" />
     <Compile Include="EF_Model\Tools_Addition.cs" />
@@ -151,6 +166,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\ToolReport.rdlc" />
     <EntityDeploy Include="EF_Model\STDB_Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>STDB_Model.Designer.cs</LastGenOutput>
@@ -186,7 +202,9 @@
       <DependentUpon>STDB_Model.edmx</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Windows\Order_Tab\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

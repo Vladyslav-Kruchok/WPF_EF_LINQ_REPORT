@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Data;
-using System.Data.Entity;
+using System.Data.Entity;//load
 using System.Data.Entity.Core.EntityClient;
 using System.Windows.Controls.Primitives;
 
@@ -14,22 +14,18 @@ namespace STDB
     public partial class MainWindow
     {
         /// <summary>
-        /// View
+        /// Customer View
         /// </summary>
         /// <param name="context"></param>
         private void Upd_CustDV()
         {
             CollectionViewSource customerViewSource = ((CollectionViewSource)(this.FindResource("customerViewSource")));//customerViewSource
             CTX.Customer.Load();
-            customerViewSource.Source = m_context.Customer.Local;
+            customerViewSource.Source = CTX.Customer.Local;
         }
-        private void Upd_CustDV<Ttype>(List<Ttype> view)
-        {
-            CollectionViewSource customerViewSource = ((CollectionViewSource)(this.FindResource("customerViewSource")));
-            customerViewSource.Source = view;
-        }
+
         /// <summary>
-        /// Additional func
+        /// Customer Additional func
         /// </summary>
         private void Clear_CustFields()
         {
@@ -53,7 +49,7 @@ namespace STDB
         }
         private bool IsEmpty_CustVaryable(ref EF_Model.Customer f_customer)
         {
-            if (f_customer.Name == null & f_customer.Address_customer == null & f_customer.Date_in == new DateTime(0001, 01, 01, 0, 00, 00))
+            if (f_customer.Name == null && f_customer.Address_customer == null && f_customer.Date_in <= DateTime.Today)
             {
                 return true;
             }
@@ -108,6 +104,7 @@ namespace STDB
         }
         private void Search_Cust(EF_Model.Customer f_set_cust_search)// linq does not eссept ref
         {
+            //variety of search
             var choice = Searched_Choice();
             switch (choice)
             {
@@ -150,7 +147,7 @@ namespace STDB
             }
         }
         /// <summary>
-        /// Button
+        /// Customer Button
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -194,7 +191,7 @@ namespace STDB
         }
         private void Delete_Cust_Bt_Click(object sender, RoutedEventArgs e)
         {
-
+            Clear_CustFields();
             CTX.Customer.Load();
             //to transmit "id" of the chosen row to varyable person
             var person = CTX.Customer.Find(((EF_Model.Customer)customerDataGrid.SelectedItem).Id);//customerDataGrid
@@ -226,7 +223,7 @@ namespace STDB
                 //search
                 Search_Cust(set_cust_search);
                 //view
-                Upd_CustDV<EF_Model.Customer>(Search_Cust_Lst);
+                Upd_TableDV<EF_Model.Customer>(Search_Cust_Lst, "customerViewSource");
                 Clear_CustFields();
             }
         }
@@ -247,13 +244,13 @@ namespace STDB
         }
         private void Edit_Cust_Bt_Click(object sender, RoutedEventArgs e)
         {
-            //select customer
+            //select, find, get id of customer
             object selected_item = customerDataGrid.SelectedItem;
-            int searched_id = ((EF_Model.Customer)selected_item).Id;
+            int cust_id = ((EF_Model.Customer)selected_item).Id;
             CTX.Customer.Load();
-            var person = CTX.Customer.Find(searched_id);
+            var person = CTX.Customer.Find(cust_id);
             //to send data into edit form
-            CustomerEditWindow cust_edit_wnd = new CustomerEditWindow(ref person, ref m_context);
+            CustomerEditWindow cust_edit_wnd = new CustomerEditWindow(ref person, CTX);
             cust_edit_wnd.ShowDialog();//return true if row was changed or false if cancel 
             if (cust_edit_wnd.DialogResult == true)
             {
@@ -262,8 +259,8 @@ namespace STDB
                 //linq
                 Search_Cust(person);
                 //linq
-                Upd_CustDV<EF_Model.Customer>(Search_Cust_Lst);
-            }      
+                Upd_TableDV<EF_Model.Customer>(Search_Cust_Lst, "customerViewSource");
+            }
             Clear_CustFields();
         }
     }

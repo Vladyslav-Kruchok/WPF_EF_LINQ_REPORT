@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:STDB"
         mc:Ignorable="d"
-        Title="CustomerEditWindow" Height="182" Width="329">
+        Title="CustomerEditWindow" Height="192" Width="329">
     <Grid>
         <Label x:Name="Name_Lb" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
         <Label x:Name="Address_Lb" Content="Address" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.342,-0.538"/>
@@ -13,7 +13,7 @@
         <TextBox x:Name="Name_Tb" HorizontalAlignment="Left" Height="23" Margin="70,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
         <TextBox x:Name="Address_Tb" HorizontalAlignment="Left" Height="46" Margin="70,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150"/>
         <DatePicker x:Name="Date_Dp" HorizontalAlignment="Left" Margin="70,95,0,0" VerticalAlignment="Top" Width="150"/>
-        <Button x:Name="Save_Bt" Content="Save data" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="210" Click="Save_Bt_Click"/>
+        <Button x:Name="Save_Ch_Cust_Bt" Content="Save" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="210" Click="Save_Ch_Cust_Bt_Click"/>
 
     </Grid>
 </Window>

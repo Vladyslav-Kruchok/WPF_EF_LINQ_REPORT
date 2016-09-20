@@ -25,7 +25,7 @@ namespace STDB.EF_Model
             }
             else
             {
-                Date_in = DateTime.Now;
+                Date_in = DateTime.Today;
             }
         }
         private bool IsRight_Date(string f_date = "")

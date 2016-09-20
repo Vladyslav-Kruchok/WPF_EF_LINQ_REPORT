@@ -1,20 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data;
 using Microsoft.Reporting.WinForms;
 using System.Data.Entity;
-using System.Data.Entity.Core.EntityClient;
 
 namespace STDB
 {
@@ -24,8 +12,8 @@ namespace STDB
     public partial class CustomerReportWindow : Window
     {
         private bool _isReportViewerLoaded;
-        DbSet<EF_Model.Customer> full_view;
-        List<EF_Model.Customer> partial_view;
+        private DbSet<EF_Model.Customer> full_view;
+        private List<EF_Model.Customer> partial_view;
 
         public CustomerReportWindow()
         {

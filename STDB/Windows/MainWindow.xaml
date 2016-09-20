@@ -11,6 +11,7 @@
     <Window.Resources>
         <CollectionViewSource x:Key="customerViewSource" d:DesignSource="{d:DesignInstance {x:Type EF_Model:Customer}, CreateList=True}"/>
         <CollectionViewSource x:Key="toolsViewSource" d:DesignSource="{d:DesignInstance {x:Type EF_Model:Tools}, CreateList=True}"/>
+        <CollectionViewSource x:Key="o_rderViewSource" d:DesignSource="{d:DesignInstance {x:Type EF_Model:O_rder}, CreateList=True}"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -23,14 +24,15 @@
 
         <TabControl x:Name="tabControl" Margin="10" TabStripPlacement="Right" Grid.ColumnSpan="2">
             <TabItem x:Name="Customer_Tab" Header="Customer">
-                <Grid x:Name="Customer_Leaf" Background="#FFE5E5E5"
+                <Grid x:Name="Customer_Leaf"
+                      Background="#FFE5E5E5"
                       DataContext="{StaticResource customerViewSource}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <!--Control-->
-                    <Grid x:Name="Control" Margin="0,0,0,1" Grid.Row="1">
+                    <Grid x:Name="Customer_Control" Margin="0,0,0,1" Grid.Row="1">
                         <Button x:Name="Search_Cust_Bt" Content="Search / ReLoad the table" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="267" Click="Search_Cust_Bt_Click"/>
                         <Label x:Name="Name_Lb" Content="Name" HorizontalAlignment="Left" Margin="10,30,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                         <Label x:Name="Address_Lb" Content="Address" HorizontalAlignment="Left" Margin="10,56,0,0" Grid.Row="1" VerticalAlignment="Top"/>
@@ -77,22 +79,33 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="Tool_Tab" Header="Tool">
-                <Grid x:Name="Tool_Leaf" Background="#FFE5E5E5" DataContext="{StaticResource toolsViewSource}">
+                <Grid x:Name="Tool_Leaf"
+                      Background="#FFE5E5E5"
+                      DataContext="{StaticResource toolsViewSource}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Button x:Name="Search_Tool_Bt" Content="Search / ReLoad the table" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="312" Grid.Row="1" Height="20"/>
-                    <Button x:Name="Delete_Tool_Bt" Content="Delete Tool" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Delete_Tool_Bt_Click"/>
-                    <Button x:Name="Edit_Tool_Bt" Content="Edit_Tool" HorizontalAlignment="Left" Margin="115,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1"/>
-                    <Button x:Name="Add_Tool_Bt" Content="Add_Tool" HorizontalAlignment="Left" Margin="220,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Add_Tool_Bt_Click"/>
-                    <Button x:Name="Print_Tool_Bt" Content="Print_Tool" HorizontalAlignment="Left" Margin="327,10,0,0" VerticalAlignment="Top" Width="89" Grid.Row="1" Height="127"/>
-                    <Label x:Name="Name_Tool_Lb" Content="Name Tool" HorizontalAlignment="Left" Margin="10,35,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <Label x:Name="Amount_Tool_Lb" Content="Amount" HorizontalAlignment="Left" Margin="10,61,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <TextBox x:Name="Amount_Tool_Tb" HorizontalAlignment="Left" Height="23" Margin="77,63,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="55"/>
-                    <TextBox x:Name="Name_Tool_Tb" HorizontalAlignment="Left" Height="23" Margin="77,35,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="243"/>
+                    <!--Control tool-->
+                    <Grid x:Name="Tool_Control" Margin="0,0,0,1" Grid.Row="1">
+                        <Button x:Name="Search_Tool_Bt" Content="Search / ReLoad the table" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="312" Grid.Row="1" Height="20" Click="Search_Tool_Bt_Click"/>
+                        <Button x:Name="Delete_Tool_Bt" Content="Delete Tool" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Delete_Tool_Bt_Click"/>
+                        <Button x:Name="Edit_Tool_Bt" Content="Edit Tool" HorizontalAlignment="Left" Margin="115,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Edit_Tool_Bt_Click"/>
+                        <Button x:Name="Add_Tool_Bt" Content="Add Tool" HorizontalAlignment="Left" Margin="220,117,0,0" VerticalAlignment="Top" Width="100" Grid.Row="1" Click="Add_Tool_Bt_Click"/>
+                        <Button x:Name="Print_Tool_Bt" Content="Print_Tool" HorizontalAlignment="Left" Margin="327,10,0,0" VerticalAlignment="Top" Width="89" Grid.Row="1" Height="127" Click="Print_Tool_Bt_Click"/>
+                        <Label x:Name="Name_Tool_Lb" Content="Name Tool" HorizontalAlignment="Left" Margin="10,35,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                        <Label x:Name="Amount_Tool_Lb" Content="Amount" HorizontalAlignment="Left" Margin="10,61,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                        <TextBox x:Name="Amount_Tool_Tb" HorizontalAlignment="Left" Height="23" Margin="77,63,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="55"/>
+                        <TextBox x:Name="Name_Tool_Tb" HorizontalAlignment="Left" Height="23" Margin="77,35,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="243"/>
+                    </Grid>
                     <!--DB Tools on datagrid-->
-                    <DataGrid x:Name="toolsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="10" RowDetailsVisibilityMode="VisibleWhenSelected">
+                    <DataGrid x:Name="toolsDataGrid"
+                              AutoGenerateColumns="False"
+                              EnableRowVirtualization="True"
+                              ItemsSource="{Binding}"
+                              Margin="10"
+                              RowDetailsVisibilityMode="VisibleWhenSelected"
+                              IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="idColumn1" Binding="{Binding Id}" Header="Id" Width="30"/>
                             <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding Name}" Header="Name" Width="310"/>
@@ -102,11 +115,63 @@
                     <!--DB Tools on datagrid-->
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
-                <Grid Background="#FFE5E5E5">
+            <TabItem x:Name="O_rder_Tab" Header="Order">
+                <Grid x:Name="O_rder_Leaf"
+                      Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="106*"/>
+                        <ColumnDefinition Width="107*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="168*"/>
+                        <RowDefinition Height="129*"/>
+                        <RowDefinition Height="38*"/>
+                    </Grid.RowDefinitions>
+                    <!--Order Control-->
+                    <Grid Name="O_rder_Control" DataContext="{StaticResource o_rderViewSource}" Grid.ColumnSpan="2">
+                        <Button x:Name="Delete_Order_Bt" Content="Delete Order" HorizontalAlignment="Left" Margin="7,307,0,-159" VerticalAlignment="Top" Width="75"/>
+                        <Button x:Name="Edit_Order_Bt" Content="Edit Order" HorizontalAlignment="Left" Margin="178,307,0,-159" VerticalAlignment="Top" Width="75"/>
+                        <Button x:Name="Add_Order_Bt" Content="Add Order" HorizontalAlignment="Left" Margin="258,307,0,-159" VerticalAlignment="Top" Width="75"/>
+                        <Button x:Name="Search_Order_Bt" Content="Search / Reload" HorizontalAlignment="Left" Margin="87,307,0,-159" VerticalAlignment="Top" Width="86"/>
+                        <Button x:Name="Print_Order_Bt" Content="Print" HorizontalAlignment="Left" Margin="342,307,0,-159" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.467,6.7"/>
+                    </Grid>
+                    <!--DB O_rder on DataGrid-->
+                    <DataGrid x:Name="o_rderDataGrid" 
+                              AutoGenerateColumns="False" 
+                              EnableRowVirtualization="True" 
+                              ItemsSource="{Binding}" 
+                              Margin="10,10,10,0" 
+                              RowDetailsVisibilityMode="VisibleWhenSelected"
+                              IsReadOnly="True" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="num_OrderColumn" Binding="{Binding Num_Order}" Header="Num Order" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="id_CustomerColumn" Binding="{Binding Id_Customer}" Header="Id Customer" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="id_ToolColumn" Binding="{Binding Id_Tool}" Header="Id Tool" Width="SizeToHeader"/>
+                            <DataGridTextColumn x:Name="amountColumn1" Binding="{Binding Amount}" Header="Amount" Width="SizeToHeader"/>
+                            <DataGridTemplateColumn x:Name="date_inColumn1" Header="Date in" Width="SizeToHeader">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding Date_in, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:Name="doneColumn" Binding="{Binding Done}" Header="Done" Width="SizeToHeader"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox x:Name="Cust_Inf_Gb" Header="Customer Info" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="119" Width="202"/>
+                    <GroupBox x:Name="Tool_Inf_Gb" Header="Tool Info" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top" Height="119" Width="202" Grid.Column="1"/>
+                    <Label x:Name="Id_Cust_Order_LB_Copy1" Content="Id" HorizontalAlignment="Left" Margin="19,22,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.667,1.923"/>
+                    <Label x:Name="Name_Cust_Order_LB" Content="Name" HorizontalAlignment="Left" Margin="19,48,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.667,1.923"/>
+                    <Label x:Name="Addr_Cust_Order_LB" Content="Address" HorizontalAlignment="Left" Margin="19,79,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="77,26,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="130"/>
+                    <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="77,52,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox2" VerticalAlignment="Top" Width="130"/>
+                    <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="39" Margin="77,80,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox3" VerticalAlignment="Top" Width="130"/>
+
+                    <!--DB O_rder on DataGrid-->
 
                 </Grid>
             </TabItem>
+
         </TabControl>
 
         <Button x:Name="Test_Conn_Bt" Content="Test Conn" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,9,10" VerticalAlignment="Bottom" Width="60" RenderTransformOrigin="0.484,1.3" Click="Test_Conn_Bt_Click"/>
